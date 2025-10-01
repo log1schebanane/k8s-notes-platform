@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodejs-service
+spec:
+  # Wir verwenden ClusterIP, da der Service intern im Cluster erreichbar sein soll
+  type: ClusterIP
+  selector:
+    app: my-nodejs-backend
+  ports:
+  - protocol: TCP
+    port: 80 # Der Port, auf dem der Service lauscht
+    targetPort: 3000 # Leitet Traffic an den containerPort des Deployments weiter
