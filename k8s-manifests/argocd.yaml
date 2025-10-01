@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # Name deiner App in der ArgoCD-Oberfläche
+  name: my-nodejs-backend
+  # WICHTIG: Die App-Definition gehört in den argocd-Namespace
+  namespace: argocd
+spec:
+  project: default
+
+  # --- QUELLE: DEIN GIT-REPO ---
+  source:
+    # ❗️ ERSETZE DIES mit der URL deines GitHub-Repos
+    repoURL: https://github.com/DEIN-USERNAME/DEIN-REPO.git
+    targetRevision: HEAD
+    # ❗️ ERSETZE DIES mit dem Pfad zu deinen YAMLs im Repo
+    path: my-nodejs-backend
+
+  # --- ZIEL: DEIN KUBERNETES-CLUSTER ---
+  destination:
+    server: https://kubernetes.default.svc
+    # ❗️ Der Namespace, in den dein Service & Deployment installiert werden sollen
+    namespace: default
+
+  # --- SYNC-POLICY: AUTOMATISIERUNG ---
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
